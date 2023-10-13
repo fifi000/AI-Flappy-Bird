@@ -20,3 +20,6 @@ __Learning Birds__ 📗
 __Top Student__ 🤓
 
 <img src="ReadmeImgs/learning_2.png" width="30%" height="30%">
+
+## Logs
+Info about __generations__ and highest __scores__, can be found in the __console__.
