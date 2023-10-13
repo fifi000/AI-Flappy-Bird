@@ -2,6 +2,10 @@
 const canvas = document.getElementById("game_window");
 canvas.height = 0.9 * window.innerHeight;
 canvas.width = canvas.height * 7 / 8;
+if (canvas.width > window.innerWidth) {
+    canvas.width = 0.9 * window.innerWidth;
+    canvas.height = 8 / 7 * canvas.width;
+}
 const ctx = canvas.getContext("2d");
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
@@ -18,9 +22,9 @@ const Architect = neataptic.architect;
 
 // network parameters
 const urlParams = new URLSearchParams(window.location.search);
-const POPULATION_COUNT = urlParams.get("POPULATION_COUNT");
-const MAX_GENERATIONS = urlParams.get("MAX_GENERATIONS");
-const ELITISM_PERCENTAGE = urlParams.get("ELITISM_PERCENTAGE");
+const POPULATION_COUNT = urlParams.get("POPULATION_COUNT") ?? 100;
+const MAX_GENERATIONS = urlParams.get("MAX_GENERATIONS") ?? 50;
+const ELITISM_PERCENTAGE = urlParams.get("ELITISM_PERCENTAGE") ?? 0.1;
 const INPUT_NEURONS = 3;
 const OUTPUT_NEURONS = 1;
 // const ELITISM_PERCENTAGE = parseFloat(prompt("Enter the elitism percentage (as a decimal):"));
@@ -117,15 +121,15 @@ function draw() {
     floor.draw();
 
     // score
-    ctx.font = "60px Consolas ";
+    ctx.font = "bold 60px Consolas";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
+    ctx.shadowColor = "black"
+    ctx.shadowBlur = 10;
     ctx.fillText(pipesCount, WIDTH / 2, HEIGHT * 0.1);
-
-    ctx.font = "60px Consolas ";
-    ctx.strokeStyle = "black";
-    ctx.textAlign = "center";
-    ctx.strokeText(pipesCount, WIDTH / 2, HEIGHT * 0.1);
+    
+    ctx.shadowColor = null;
+    ctx.shadowBlur = null;
 }
 
 
