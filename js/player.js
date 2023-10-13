@@ -3,8 +3,8 @@ class Player extends BaseObject {
         super(width, height, startX, startY);
 
         this.fallingSpeed = 0;
-        this.gravity = 0.8;
-        this.jumpHeight = 12;
+        this.gravity = 0.3;
+        this.jumpHeight = 7.5;
 
         this.dead = false;
 

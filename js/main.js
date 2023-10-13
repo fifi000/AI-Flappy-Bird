@@ -10,10 +10,6 @@ const ctx = canvas.getContext("2d");
 const WIDTH = canvas.width;
 const HEIGHT = canvas.height;
 
-// Refresh 
-const fps = 20;
-const scale = fps / 20;
-
 // neat imports
 const Neat = neataptic.Neat;
 const Node = neataptic.Node;
@@ -64,6 +60,22 @@ const gameState = {
     over : 2
 }
 const background = new ImgObject(WIDTH, HEIGHT * 7 / 8, 0, 0);
+
+// TODO
+window.addEventListener("keydown", function (event) {
+    if (event.code === "Space") {
+        if (gameState.current === gameState.neutral) {
+            gameState.current = gameState.playing;
+        }
+        
+        if (gameState.current !== gameState.over) {
+              players.forEach(player => { player.jump(); });
+        }
+        else {
+            reset();
+        }
+    }
+});
 
 
 function getNetwork() {
@@ -167,7 +179,7 @@ function checkCollision() {
 
 function reset() {
     pipesCount = 0;
-    floorSpeed = 3.8 * scale;
+    floorSpeed = 2.5;
 
     // players reset
     players = []
@@ -235,6 +247,7 @@ function evolve() {
 
 
 function gameLoop() {
+    requestAnimationFrame(gameLoop)
     if (gameState.current === gameState.playing) {
         players.forEach(player => {
             if (!player.dead && evaluateNetwork(player)) {
@@ -260,5 +273,7 @@ function gameLoop() {
 }
 
 reset();
+gameLoop()
 // alert("Press space to begin")
-setInterval(gameLoop, fps);        
+// setInterval(gameLoop, 20);
+
