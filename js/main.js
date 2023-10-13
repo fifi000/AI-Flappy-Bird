@@ -17,14 +17,16 @@ const Methods = neataptic.methods;
 const Architect = neataptic.architect;
 
 // network parameters
-// const MAX_GENERATIONS = 30;
-// const POPULATION_COUNT = 500;
-// const ELITISM_PERCENTAGE = parseFloat(prompt("Enter the elitism percentage (as a decimal):"));
-const MAX_GENERATIONS = parseInt(prompt("Enter the maximum number of generations (e.g. 50):"));
-const POPULATION_COUNT = parseInt(prompt("Enter the population count (e.g. 1000):"));
-const ELITISM_PERCENTAGE = 0.1
+const urlParams = new URLSearchParams(window.location.search);
+const POPULATION_COUNT = urlParams.get("POPULATION_COUNT");
+const MAX_GENERATIONS = urlParams.get("MAX_GENERATIONS");
+const ELITISM_PERCENTAGE = urlParams.get("ELITISM_PERCENTAGE");
 const INPUT_NEURONS = 3;
 const OUTPUT_NEURONS = 1;
+// const ELITISM_PERCENTAGE = parseFloat(prompt("Enter the elitism percentage (as a decimal):"));
+// const MAX_GENERATIONS = parseInt(prompt("Enter the maximum number of generations (e.g. 50):"));
+// const POPULATION_COUNT = parseInt(prompt("Enter the population count (e.g. 1000):"));
+
 
 // network
 var neat = new Neat(INPUT_NEURONS, OUTPUT_NEURONS, null, {
@@ -52,7 +54,7 @@ var players = []
 var pipes = [];
 var floor;
 const gameState = {
-    current : 0,
+    current : 1,
     neutral : 0,
     playing : 1,
     over : 2
@@ -83,22 +85,6 @@ function getNetwork() {
 
     return network;
 }
-
-
-window.addEventListener("keydown", function (event) {
-    if (event.code === "Space") {
-        if (gameState.current === gameState.neutral) {
-            gameState.current = gameState.playing;
-        }
-        
-        if (gameState.current !== gameState.over) {
-            players.forEach(player => { player.jump(); });
-        }
-        else {
-            reset();
-        }
-    }
-});
 
 
 function getPipes(n) {
@@ -270,5 +256,5 @@ function gameLoop() {
 }
 
 reset();
-alert("Press space to begin")
+// alert("Press space to begin")
 setInterval(gameLoop, fps);        
