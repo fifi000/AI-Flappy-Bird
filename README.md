@@ -3,7 +3,7 @@
 
  The NEAT algorithm provides a genetic-based approach for evolving neural networks to achieve optimal performance in the game. The AI player is trained using feedback from its performance in each generation, gradually improving its ability to navigate the game.
 
-🎮  [__Try It Out Yourself__](https://fifi000.github.io/AI_Flappy_Bird/) 🎮
+🎮  [__Try It Out Yourself__](https://fifi000.github.io/AI-Flappy-Bird/) 🎮
 
  ## Starting Neural Network Architecture 🧠
  ![Neural Network](ReadmeImgs/neural_network.png)
