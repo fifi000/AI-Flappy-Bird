@@ -21,10 +21,10 @@ class Pipe extends BaseObject {
         );
 
         this.lowerImage = new Image();
-        this.lowerImage.src = "/assets/pipe-green-down.png";
+        this.lowerImage.src = "assets/pipe-green-down.png";
 
         this.upperImage = new Image();
-        this.upperImage.src = "/assets/pipe-green-up.png";
+        this.upperImage.src = "assets/pipe-green-up.png";
 
         this.pipeCounted = false;
     }

@@ -12,7 +12,7 @@ class Player extends BaseObject {
         this.animationCounter = 0;
         for (let i = 0; i < 3; i++) {
             let image = new Image();
-            image.src = `/assets/bird/${i + 1}.png`;
+            image.src = `assets/bird/${i + 1}.png`;
             this.images.push(image)
         }
 

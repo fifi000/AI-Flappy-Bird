@@ -2,7 +2,7 @@ class Floor extends BaseObject {
     constructor(width, height, startX) {
         super(width * 2, height, startX, canvas.height - height);
         this.image = new Image();
-        this.image.src = "/assets/base.png";
+        this.image.src = "assets/base.png";
 
         this.visibleWidth = width;
     }

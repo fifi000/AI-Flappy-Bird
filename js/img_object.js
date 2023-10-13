@@ -3,7 +3,7 @@ class ImgObject extends BaseObject {
         super(width, height, startX, startY);
 
         this.image = new Image();
-        this.image.src = "/assets/background.png";
+        this.image.src = "assets/background.png";
     }
 
     draw() {
