@@ -18,4 +18,12 @@ class Floor extends BaseObject {
         ctx.drawImage(this.image, this.startX, this.startY, this.visibleWidth, this.height);
         ctx.drawImage(this.image, this.startX + this.visibleWidth, this.startY, this.visibleWidth, this.height);
     }
+
+    checkCollision(obj) {
+        return (
+            this.startX < obj.endX
+            && this.endX > obj.startX
+            && this.startY <= obj.endY
+        );
+    }
 }
