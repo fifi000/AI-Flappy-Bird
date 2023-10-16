@@ -133,12 +133,13 @@ function draw() {
     floor.draw();
 
     // score
-    ctx.font = "bold 60px Consolas";
+    ctx.font = `bold ${60 / 800 * HEIGHT}px Consolas`;
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.shadowColor = "black"
     ctx.shadowBlur = 10;
-    ctx.fillText(pipesCount, WIDTH / 2, HEIGHT * 0.1);
+    let textWidth = ctx.measureText(pipesCount).width;
+    ctx.fillText(pipesCount, (WIDTH - textWidth) / 2, HEIGHT * 0.1);
     
     ctx.shadowColor = null;
     ctx.shadowBlur = null;
@@ -166,7 +167,6 @@ function update() {
 
 
 function checkCollision() {
-    // check collisions
     players.forEach(player => {
         if (pipes.some(pipe => pipe.checkCollision(player)) || floor.checkCollision(player) || player.startY <= 0) {
             player.dead = true;
@@ -179,7 +179,7 @@ function checkCollision() {
 
 function reset() {
     pipesCount = 0;
-    floorSpeed = 2.5;
+    floorSpeed = 2.5 / 600 * WIDTH;
 
     // players reset
     players = []
