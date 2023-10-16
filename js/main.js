@@ -1,8 +1,16 @@
 // screen setup
 const canvas = document.getElementById("game_window");
-canvas.height = 0.9 * window.innerHeight;
-canvas.width = canvas.height * 7 / 8;
-if (canvas.width > window.innerWidth) {
+
+
+var smartphoneScreen = window.innerWidth < window.innerHeight;
+
+// PC monitors
+if (!smartphoneScreen) {
+    canvas.height = 0.9 * window.innerHeight;
+    canvas.width = canvas.height * 7 / 8;
+}
+// smartphones
+else {
     canvas.width = 0.9 * window.innerWidth;
     canvas.height = 8 / 7 * canvas.width;
 }
@@ -62,20 +70,22 @@ const gameState = {
 const background = new ImgObject(WIDTH, HEIGHT * 7 / 8, 0, 0);
 
 // TODO
-window.addEventListener("keydown", function (event) {
-    if (event.code === "Space") {
-        if (gameState.current === gameState.neutral) {
-            gameState.current = gameState.playing;
-        }
-        
-        if (gameState.current !== gameState.over) {
-              players.forEach(player => { player.jump(); });
-        }
-        else {
-            reset();
-        }
+window.addEventListener("keydown", (event) => { if (event.code === "Space") jumpEvent() });
+window.addEventListener("touchstart", (event) => jumpEvent());
+
+
+function jumpEvent() {
+    if (gameState.current === gameState.neutral) {
+        gameState.current = gameState.playing;
     }
-});
+    
+    if (gameState.current !== gameState.over) {
+          players.forEach(player => { player.jump(); });
+    }
+    else {
+        reset();
+    }
+}
 
 
 function getNetwork() {
@@ -133,7 +143,7 @@ function draw() {
     floor.draw();
 
     // score
-    ctx.font = `bold ${60 / 800 * HEIGHT}px Consolas`;
+    ctx.font = (smartphoneScreen) ? "bold 2.5em Arial" : "bold 4em Consolas";
     ctx.fillStyle = "white";
     ctx.textAlign = "center";
     ctx.shadowColor = "black"
