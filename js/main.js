@@ -213,6 +213,11 @@ function evaluateNetwork(player) {
     ];
     
     let output = player.brain.activate(inputs);
+
+    // playing mode when there is only one bird
+    if (players.length == 1) {
+        return false;
+    }
     return output[0] > 0.5;
 }
 
@@ -265,13 +270,12 @@ function gameLoop() {
         floorSpeed = 0;
         console.log(`Generation: ${neat.generation}\t\t\tPipe: ${pipesCount}`);
 
-        evolve();
+        if (players.length > 1) {
+            evolve();
+        }
         reset();        
     }
 }
 
 reset();
 gameLoop()
-// alert("Press space to begin")
-// setInterval(gameLoop, 20);
-
