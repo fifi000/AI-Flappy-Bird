@@ -138,9 +138,7 @@ function draw() {
     ctx.textAlign = "center";
     ctx.shadowColor = "black"
     ctx.shadowBlur = 10;
-    let textWidth = ctx.measureText(pipesCount).width;
-    ctx.fillText(pipesCount, (WIDTH - textWidth) / 2, HEIGHT * 0.1);
-    
+    ctx.fillText(pipesCount, WIDTH/ 2, HEIGHT * 0.1);
     ctx.shadowColor = null;
     ctx.shadowBlur = null;
 }
