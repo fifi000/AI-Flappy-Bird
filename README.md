@@ -17,7 +17,7 @@ __Learning Birds__ 📗
 
 <img src="ReadmeImgs/learning_1.png" width="30%" height="30%">
 
-__Top Student__ 🤓
+__Classroom star__ 🤓
 
 <img src="ReadmeImgs/learning_2.png" width="30%" height="30%">
 
