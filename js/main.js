@@ -41,8 +41,8 @@ var neat = new Neat(INPUT_NEURONS, OUTPUT_NEURONS, null, {
     mutation: [
         Methods.mutation.MOD_BIAS,
         Methods.mutation.MOD_WEIGHT,
-        Methods.mutation.ADD_CONN,
-        Methods.mutation.SUB_CONN,
+        // Methods.mutation.ADD_CONN,
+        // Methods.mutation.SUB_CONN,
     ],
     popsize: POPULATION_COUNT,
     mutationRate: 0.3,
@@ -69,7 +69,7 @@ const gameState = {
 }
 const background = new ImgObject(WIDTH, HEIGHT * 7 / 8, 0, 0);
 
-// TODO
+
 window.addEventListener("keydown", (event) => { if (event.code === "Space") jumpEvent() });
 window.addEventListener("touchstart", (event) => jumpEvent());
 
@@ -151,6 +151,9 @@ function draw() {
     ctx.fillText(pipesCount, WIDTH/ 2, HEIGHT * 0.1);
     ctx.shadowColor = null;
     ctx.shadowBlur = null;
+    
+    const maxScore = Math.max(...players.map(player => player.brain.score));
+    drawBrain(players.find(player => player.brain.score === maxScore).brain);    
 }
 
 
@@ -285,6 +288,74 @@ function gameLoop() {
         }
         reset();        
     }
+}
+
+
+function drawBrain(brain) {
+    if (!brain) return;
+    
+    let canvas = document.getElementById('neuralNetworkCanvas');
+    let ctx = canvas.getContext('2d');
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const nodeRadius = 20;
+    const nodeVerticalGap = 80;
+
+    const inputPositions = [];
+    const outputPositions = [];
+
+    // asing index to nodes
+    brain.nodes.forEach((node, index) => node.index = index);
+
+    // Calculate node positions for drawing
+    // input nodes
+    brain.nodes.filter(node => node.type === 'input').forEach(node => {
+        node.x = canvas.width / 4;
+        node.y = (node.index + 1) * nodeVerticalGap;
+        inputPositions.push(node);
+    });
+    // output nodex
+    brain.nodes.filter(node => node.type === 'output').forEach(node => {
+        node.x = canvas.width / 4 * 3;
+        node.y = inputPositions[Math.floor(inputPositions.length / 2)].y;
+        outputPositions.push(node);
+    });
+
+    // Draw connections
+    brain.connections.forEach(connection => {
+        const fromNode = inputPositions.find(node => node.index === connection.from.index);
+        const toNode = outputPositions.find(node => node.index === connection.to.index);
+
+        if (!fromNode || !toNode) return;
+
+        ctx.beginPath();
+        ctx.moveTo(fromNode.x + nodeRadius, fromNode.y);
+        ctx.lineTo(toNode.x - nodeRadius, toNode.y);
+        ctx.lineWidth = Math.abs(connection.weight) * 5;;
+        ctx.strokeStyle = connection.weight >= 0 ? '#00ff00' : '#ff0000';
+        ctx.stroke();
+
+        ctx.fillStyle = '#ffffff';
+        ctx.lineWidth = 0.5;
+        ctx.strokeStyle = '#000000';
+    });
+
+    // Draw nodes
+    inputPositions.concat(outputPositions).forEach(position => {
+        
+        ctx.beginPath();
+        ctx.arc(position.x, position.y, nodeRadius, 0, 2 * Math.PI);
+        ctx.fillStyle = '#3498db';
+        ctx.fill();
+        ctx.stroke();
+        
+        const bias = position.bias.toFixed(2);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '12px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(bias, position.x, position.y);
+    });
 }
 
 reset();
