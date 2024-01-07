@@ -4,13 +4,14 @@
 
 Projekt przedstawia rozwiązanie problemu gry w **Flappy Bird** przy pomocy algorytmu genetycznego. Celem gry Flappy Bird jest przeprowadzenie ptaka przez przeszkody, które pojawiają się na ekranie. Ptak może poruszać się tylko w górę i w dół, a przeszkody pojawiają się na różnych wysokościach. Gracz zdobywa punkt za każdą przeszkodę, którą ptak przeleci. Jeśli ptak uderzy w przeszkodę lub spadnie na ziemię, rozgrywka kończy się. 
 
-<!-- Wstawić obrazek ilustrujący grę flappy bird -->
+![Zdjęcie gry](/dokumentacja_imgs/game.png)
+[Rys 1 - Zdjęcie początku gry z populacją 500 osobników]
 
-Celem projektu jest stworzenie algorytmu, który osiągnie 1000 punktów, co oznacza pokonanie 1000 przeszkód.
+Celem jest osiągnięcie 1000 punktów, co oznacza pokonanie przez osobnika 1000 przeszkód.
 
 ## Rozwiązanie Problemu
 
-Aby osiągnąć zamierzony cel wykorzystano algorytm NEAT (ang. Neuroevolution of Augmenting Topologies - pl. Neuroewolucja z Rozszerzaniem Topologii). Algorytm NEAT jest jednym z rodziny algorytmów genetycznych. Wykorzystuje ewolucję sieci neuronowych, pozwalając na adaptacyjne trenowanie sztucznych graczy w grze Flappy Bird. Każdy sztuczny gracz jest reprezentowany przez sieć neuronową, która podejmuje decyzje (skok/nie skok) na podstawie analizy danych wejściowych.
+Do osiągnięcia zamierzonego celu wykorzystano algorytm NEAT (ang. Neuroevolution of Augmenting Topologies - pl. Neuroewolucja z Rozszerzaniem Topologii). Algorytm NEAT jest jednym z rodziny algorytmów genetycznych. Wykorzystuje ewolucję sieci neuronowych, pozwalając na adaptacyjne trenowanie sztucznych graczy w grze Flappy Bird. Każdy sztuczny gracz jest reprezentowany przez sieć neuronową, która podejmuje decyzje (skok/nie skok) na podstawie analizy danych wejściowych.
 
 ### Struktura Algorytmu NEAT
 
@@ -25,41 +26,30 @@ $$
 gdzie $[x_{1},\dots,x_{N}]$ jest zbiorem wartości wejściowych dla $N$ połączeń, przy czym każde połączenie ma określoną wagę $[w_{1},\dots,w_{N}]$. Neuron otrzymuje dane wejściowe od wielu innych jednostek lub źródeł zewnętrznych, mnoży każde wejście przez określone wagi połączeń i sumuje je. [Rys 2] przedstawia strukturę sztucznego neuronu.
 
 ![Alt text](/dokumentacja_imgs/ann.png)  
-[Rys 2]
+[Rys 2 - Struktura sztucznego neuronu]
 
 Sieć użyta w rozwiązaniu, jako genom, składa się z 2 warstw. Warstwa wejściowa złożona jest z 3 neuronów, natomiast warstwa wyjściowa tylko z 1. Każdy neuron w warstwie wejściowej jest połączony z neuronem wyjściowym. 
 
-Początkowo zarówno każdy neuron wejściowy jak i każde połączenie w sieci ma wartość z przedziału $[0,1]$.
-
-<!-- Tu skończyłem -->
-<!-- dokończyć o mutacjach wag i biasów -->
-<!-- dodać ilustrację wykorzystywanej sieci -->
-
-- Liczba warstw: Sieć składa się z warstwy wejściowej, warstwy wyjściowej i ukrytych warstw.
-- Liczba neuronów: Określa liczbę neuronów w warstwach.
-- Mutacje wag i biasów: Algorytm uwzględnia mutacje wag i biasów neuronów w celu poprawy wydajności.
-
-#### Inicjalizacja populacji
-
-- Tworzenie populacji: Inicjalizacja populacji graczy z losowymi wagami i biasami w sieciach neuronowych.
-- Liczba populacji: Użytkownik może określić liczbę populacji graczy.
-
-#### Ocena sieci
-
-- Funkcja oceny: Wykorzystuje dane wejściowe (pozycja gracza, przeszkody) do obliczenia wyjścia sieci i podejmowania decyzji (skok/nie skok).
-- Metoda aktywacji: Funkcja aktywacji neuronów (np. tangens hiperboliczny) w sieci.
+![Przykładowy startowy stan genomu](/dokumentacja_imgs/network.png)  
+[Rys 3 - Stan startowy genomu przykładowego badanego osobnika, liczby oznaczają wartości bias, natomiast grubość połączeń ich wagę]
 
 #### Proces ewolucji
 
-- Sortowanie populacji: Ocena populacji graczy i sortowanie ich na podstawie wyników.
-- Elityzm: Zachowanie najlepszych osobników z populacji do następnej generacji.
-- Krzyżowanie i mutacja: Tworzenie potomstwa przez krzyżowanie i mutację najlepszych osobników.
+Początkowo dla każdego osobnika zostaje przydzielony genom z losowymi wartościami.
 
-## Implementacja w Kodzie
+Następnie z każdą badaną generacją wykorzystany algorytm NEAT stosuje strategie zarówno eksploracyjne, jak i eksploatacyjne, próbując znaleźć optymalne rozwiązania w przestrzeni rozwiązań.
 
-- Inicjalizacja sieci: Tworzenie struktury sieci neuronowej z odpowiednią liczbą neuronów.
-- Ewaluacja sieci: Ocena wydajności graczy na podstawie danych wejściowych.
-- Proces ewolucji: Krzyżowanie, mutacja i tworzenie kolejnych generacji populacji graczy.
+Jedną z tych strategii jest mutacja wag i biasów. Poprzez ich losowe zmiany, NEAT może optymalizować sieci neuronowe w celu osiągnięcia lepszego wyniku.
+
+Kolejną ważną strategią jest elitycyzm. Jest to strategia selekcji, która zachowuje najlepsze osobniki z jednej generacji do następnej generacji bez dokonywania na nich żadnych zmian. Elitycyzm jest używany w celu zachowania informacji genetycznej najlepszych osobników i przekazania ich do kolejnych pokoleń w celu utrzymania stabilności i kontynuowania postępu ewolucyjnego.
+
+Jeszcze inną strategią jest krzyżowanie. Strategia ta odnosi się do losowego łączenia genotypów 2 osobników w celu stworzenia potomka dziedziczącego. Proces ten pozwala na większą eksplorację przestrzeni rozwiązań i zwiększenie różnorodności w populacji.
+
+## Wyniki
+
+- Tabela wyników | najlepszy osobnik każdej generacji w 10 generacjach + jego genotyp (wagi i biasy)
+- Tabela różnych startowych ustawień (populacja <50, 100> żeby nie za szybko też dochodziło), z informacją ile generacji/razem populacji do osiągnięca oczekiwanego wyniku
+- Interpretacja tych tabel
 
 ## Podsumowanie
 
