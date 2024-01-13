@@ -49,7 +49,7 @@ function getNetwork() {
     let network = Architect.Construct(input.concat(output));
 
     network.nodes.forEach(neuron => {
-        neuron.squash = Methods.activation.TANH;
+        neuron.squash = Methods.activation.LOGISTIC;
         neuron.bias = Math.random() * 2 * max + min;
     });
 
@@ -60,40 +60,76 @@ function getNetwork() {
     return network;
 }
 
+function normalize(value, minValue, maxValue, targetMin, targetMax) {
+    let normalizedValue = (value - minValue) / (maxValue - minValue);
+    return normalizedValue * (targetMax - targetMin) + targetMin;
+}
+
 function evaluateNetwork(player) {
+    // playing mode when there is only one bird
+    if (players.length == 1) return false;
+
+    // get the closest pipe
     let pipe = pipes.find(p => p.endX >= player.startX);
 
+    // Normalize inputs to the range of -5 to 5
+    let normalizedStartY = normalize(player.startY, 0, background.height, -5, 5);
+    let normalizedUpperHeight = normalize(pipe.upper.height, 0, background.height, -5, 5);
+    let normalizedLowerStartY = normalize(pipe.lower.startY, 0, background.height, -5, 5);
+
     let inputs = [
-        player.startY / background.height,
-        pipe.upper.height / background.height,
-        pipe.lower.startY / background.height        
+        normalizedStartY,
+        normalizedUpperHeight,
+        normalizedLowerStartY
     ];
-    
+
     let output = player.brain.activate(inputs);
 
-    // playing mode when there is only one bird
-    if (players.length == 1) {
-        return false;
-    }
     return output[0] > 0.5;
+}
+
+function mutate(genome) {
+    let min = -1;
+    let max = 1;
+
+    let mutation = neat.mutation[Math.floor(Math.random() * neat.mutation.length)];
+
+    switch (mutation) {
+        case Methods.mutation.MOD_BIAS:
+            genome.nodes.forEach(node => {
+                node.bias = Math.random() * 2 * max + min;
+            })
+            break;
+        case Methods.mutation.MOD_WEIGHT:
+            genome.connections.forEach(con => {
+                con.weight = Math.random() * 2 * max + min;
+            })
+            break;
+        default:
+            break;
+    }
 }
 
 function evolve() {
     neat.sort();
     let newPopulation = [];
 
+    // Elite population
     for (let i = 0; i < neat.elitism; i++) {
         newPopulation.push(neat.population[i]);
     }
 
     // Breed the rest of the population
     for (let i = 0; i < neat.popsize - neat.elitism; i++) {
-        newPopulation.push(neat.getOffspring());
+        let newGenome = neat.getOffspring();
+        if (Math.random() <= neat.mutationRate) {
+            mutate(newGenome);
+        }
+        newPopulation.push(newGenome);
     }
 
     // Replace the old population with the new one
     neat.population = newPopulation;
-    neat.mutate();
     neat.generation += 1;
 
     if (pipesCount < 100 && neat.generation > MAX_GENERATIONS) {
