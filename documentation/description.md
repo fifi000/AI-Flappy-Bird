@@ -22,8 +22,6 @@ Do osiągnięcia zamierzonego celu wykorzystano algorytm **NEAT** (ang. *Neuroev
 
 ### Genom
 
-Każdy wojowniczy ptak jest reprezentowany poprzez swój **genom**, który jest *(siecią neuronową)*. 
-
 Sztuczna sieć neuronowa to model obliczeniowy inspirowany strukturą ludzkiego mózgu. Ludzki mózg składa się z ogromnej liczby komórek nerwowych, zwanych neuronami. Neurony działają w bardzo prosty sposób. Jeśli przychodzące bodźce są wystarczająco silne, neuron przesyła impuls elektryczny, wzdłuż swojego aksonu do innych neuronów, które są z nim połączone. Neuron działa więc jak przełącznik typu "wszystko albo nic", który przyjmuje zestaw sygnałów wejściowych i albo wysyła informajcę dalej, albo nie wysyła niczego. [Deep Learning - John D. Kelleher](). 
 
 Modelowy neuron jest nazywany jednostką progową, a jego wartość $z$ liczona jest przy pomocy funkcji sumy:
@@ -45,7 +43,7 @@ $$
 f(x)=\frac{1}{1+e^{-x}}
 $$
 
-![Przykładowy startowy stan genomu](image.png)
+![Przykładowy startowy stan genomu](network.png)
 [Rys 4]
 
 ![Sigmoid](sigmoid.png)
