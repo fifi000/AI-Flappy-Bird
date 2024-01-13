@@ -78,8 +78,13 @@ function getPipes(n) {
 function draw() {
     background.draw();
 
+    const maxScore = Math.max(...players.map(player => player.brain.score));
+    let bestPlayer = players.find(player => player.brain.score === maxScore);
+    drawBrain(bestPlayer.brain);
+
     pipes.forEach(pipe => { pipe.draw() });
     players.forEach(player => { player.draw() });
+    // bestPlayer.draw();
 
     floor.draw();
 
@@ -93,8 +98,7 @@ function draw() {
     ctx.shadowColor = null;
     ctx.shadowBlur = null;
     
-    const maxScore = Math.max(...players.map(player => player.brain.score));
-    drawBrain(players.find(player => player.brain.score === maxScore).brain);    
+ 
 }
 
 
