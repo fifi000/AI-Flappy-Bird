@@ -49,8 +49,10 @@ function getNetwork() {
     let network = Architect.Construct(input.concat(output));
 
     network.nodes.forEach(neuron => {
-        neuron.squash = Methods.activation.LOGISTIC;
-        neuron.bias = Math.random() * 2 * max + min;
+        if (neuron.type !== "input") {
+            neuron.squash = Methods.activation.LOGISTIC;
+            neuron.bias = Math.random() * 2 * max + min;
+        }
     });
 
     network.connections.forEach(con => {

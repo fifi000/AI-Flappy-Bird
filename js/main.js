@@ -97,8 +97,6 @@ function draw() {
     ctx.fillText(pipesCount, WIDTH/ 2, HEIGHT * 0.1);
     ctx.shadowColor = null;
     ctx.shadowBlur = null;
-    
- 
 }
 
 
@@ -143,7 +141,7 @@ function drawBrain(brain) {
         ctx.beginPath();
         ctx.moveTo(fromNode.x + nodeRadius, fromNode.y);
         ctx.lineTo(toNode.x - nodeRadius, toNode.y);
-        ctx.lineWidth = Math.abs(connection.weight) * 5;;
+        ctx.lineWidth = Math.abs(connection.weight) * 5;
         ctx.strokeStyle = connection.weight >= 0 ? '#00ff00' : '#ff0000';
         ctx.stroke();
 
@@ -161,11 +159,13 @@ function drawBrain(brain) {
         ctx.fill();
         ctx.stroke();
         
-        const bias = position.bias.toFixed(2);
-        ctx.fillStyle = '#ffffff';
-        ctx.font = '12px Arial';
-        ctx.textAlign = 'center';
-        ctx.fillText(bias, position.x, position.y);
+        if (position.type !== 'input') {
+            const bias = position.bias.toFixed(2);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(bias, position.x, position.y);
+        }
     });
 }
 
