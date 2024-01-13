@@ -2,12 +2,16 @@
 
 ## Wprowadzenie
 
-Projekt przedstawia rozwiązanie problemu gry w **Flappy Bird** przy pomocy algorytmu genetycznego. Celem gry Flappy Bird jest przeprowadzenie ptaka przez przeszkody, które pojawiają się na ekranie. Ptak może poruszać się tylko w górę i w dół, a przeszkody pojawiają się na różnych wysokościach. Gracz zdobywa punkt za każdą przeszkodę, którą ptak przeleci. Jeśli ptak uderzy w przeszkodę lub spadnie na ziemię, rozgrywka kończy się. 
+W ptasim świecie zorganizowono igrzyska śmierci, gdzie przetrwają tylko najlepsi...
+
+Grę rozpoczyna $250$ śmiałków. Ich celem jest osiągnięcie $100$ punktów, co oznacza pokonanie przez którego-kolwiek z grupy zawodników, $100$ morderczych przeszkód. Podczas igrzysk panują zasady doboru naturalnego. Jedynie garstka $10$% nalepszych pozostaje przy życiu. Co każdą rundę 
+
+### Opis Gry
+
+genetycznego. Celem gry Flappy Bird jest przeprowadzenie ptaka przez przeszkody, które pojawiają się na ekranie. Ptak może poruszać się tylko w górę i w dół, a przeszkody pojawiają się na różnych wysokościach. Gracz zdobywa punkt za każdą przeszkodę, którą ptak przeleci. Jeśli ptak uderzy w przeszkodę lub spadnie na ziemię, rozgrywka kończy się. 
 
 ![Zdjęcie gry](game.png)
 [Rys 1 - Zdjęcie początku gry z populacją 500 osobników]
-
-Celem jest osiągnięcie 1000 punktów, co oznacza pokonanie przez osobnika 1000 przeszkód.
 
 ## Rozwiązanie Problemu
 
