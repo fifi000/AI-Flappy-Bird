@@ -6,20 +6,20 @@
 🎮  [__Try It Out Yourself__](https://fifi000.github.io/AI-Flappy-Bird/) 🎮
 
  ## Starting Neural Network Architecture 🧠
- <img src="ReadmeImgs/neural_network.png" width="50%" height="50%">
+ <img src="readme_imgs/neural_network.png" width="50%" height="50%">
 
 ## Overview
 __Setup__
 
-<img src="ReadmeImgs/user_setup.png" width="60%" height="60%">
+<img src="readme_imgs/user_setup.png" width="60%" height="60%">
 
 __Learning Birds__ 📗
 
-<img src="ReadmeImgs/learning_1.png" width="30%" height="30%">
+<img src="readme_imgs/learning_1.png" width="30%" height="30%">
 
 __Classroom star__ 🤓
 
-<img src="ReadmeImgs/learning_2.png" width="30%" height="30%">
+<img src="readme_imgs/learning_2.png" width="30%" height="30%">
 
 ## Logs
 Info about __generations__ and highest __scores__, can be found in the __console__.
