@@ -24,7 +24,7 @@ z=\sum_{i=1}^{N} {w_{i}x_{i}}
 $$
 gdzie $[x_{1},\dots,x_{N}]$ jest zbiorem wartości wejściowych dla $N$ połączeń, przy czym każde połączenie ma określoną wagę $[w_{1},\dots,w_{N}]$. Neuron otrzymuje dane wejściowe od wielu innych jednostek lub źródeł zewnętrznych, mnoży każde wejście przez określone wagi połączeń i sumuje je. [Rys 2] przedstawia strukturę sztucznego neuronu.
 
-![Alt text](/dokumentacja_imgs/ann.png)  
+![Alt text](ann.png)  
 [Rys 2]
 
 Sieć użyta w rozwiązaniu, jako genom, składa się z 2 warstw. Warstwa wejściowa złożona jest z 3 neuronów, natomiast warstwa wyjściowa tylko z 1. Każdy neuron w warstwie wejściowej jest połączony z neuronem wyjściowym. 
