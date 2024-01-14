@@ -20,6 +20,7 @@ const HEIGHT = canvas.height;
 
 
 // game variables
+const GAME_SPEED_FACTOR = 1;
 var pipesCount = 0;
 var pipesGap = 5 / 12 * WIDTH;
 var floorSpeed;
@@ -203,7 +204,7 @@ function checkCollision() {
 
 function reset() {
     pipesCount = 0;
-    floorSpeed = 2.5 / 600 * WIDTH;
+    floorSpeed = 2.5 * (WIDTH / 600) * GAME_SPEED_FACTOR;
 
     // players reset
     players = []
@@ -230,10 +231,11 @@ function reset() {
 
 
 function gameLoop() {
-    requestAnimationFrame(gameLoop)
+    requestAnimationFrame(gameLoop);
+
     if (gameState.current === gameState.playing) {
         players.forEach(player => {
-            if (!player.dead && evaluateNetwork(player)) {
+            if (!player.dead && evaluateNetwork(player, players, pipes)) {
                 player.jump();
             }
         });
