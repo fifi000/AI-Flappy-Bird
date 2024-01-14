@@ -22,16 +22,30 @@
                 
                     <div class="shadow-sm p-3 mb-3 bg-body rounded">
                         <label for="population-size" class="form-label">
-                            Population Size: <span class="badge bg-success" id="population-size-value">500</span>
+                            Population Size: <span class="badge bg-success" id="population-size-value">100</span>
                         </label>
-                        <input type="range" id="population-size" name="populationSize" class="form-range" min="10" max="3000" step="10" value="500" oninput="updateRangeValue('population-size', 'population-size-value')">
+                        <input type="range" id="population-size" name="populationSize" class="form-range" min="10" max="1000" step="10" value="100" oninput="updateRangeValue('population-size', 'population-size-value')">
+                    </div>
+
+                    <div class="shadow-sm p-3 mb-3 bg-body rounded">
+                        <label for="target-score" class="form-label">
+                            Target Score: <span class="badge bg-success" id="target-score-value">100</span>
+                        </label>
+                        <input type="range" id="target-score" name="targetScore" class="form-range" min="10" max="250" step="10" value="100" oninput="updateRangeValue('target-score', 'target-score-value')">
                     </div>
                 
                     <div class="shadow-sm p-3 mb-3 bg-body rounded">
                         <label for="elitism-percentage" class="form-label">
-                            Elitism Percentage: <span class="badge bg-success" id="elitism-percentage-value">10</span>
+                            Elitism [%]: <span class="badge bg-success" id="elitism-percentage-value">10</span>
                         </label>
-                        <input type="range" id="elitism-percentage" name="elitismPercentage" class="form-range" min="10" max="100" step="1" value="10" oninput="updateRangeValue('elitism-percentage', 'elitism-percentage-value')">
+                        <input type="range" id="elitism-percentage" name="elitismPercentage" class="form-range" min="0" max="100" step="1" value="10" oninput="updateRangeValue('elitism-percentage', 'elitism-percentage-value')">
+                    </div>            
+                    
+                    <div class="shadow-sm p-3 mb-3 bg-body rounded">
+                        <label for="mutation-rate" class="form-label">
+                            Mutation Rate [%]: <span class="badge bg-success" id="mutation-rate-value">10</span>
+                        </label>
+                        <input type="range" id="mutation-rate" name="mutationRate" class="form-range" min="0" max="100" step="1" value="10" oninput="updateRangeValue('mutation-rate', 'mutation-rate-value')">
                     </div>
                 
                     <div class="d-flex justify-content-center">
@@ -56,9 +70,11 @@
             // Get the values from the form elements
             const MAX_GENERATIONS = document.getElementById('max-generations').value;
             const POPULATION_COUNT = document.getElementById('population-size').value;
+            const TARGET_SCORE = document.getElementById('target-score').value;
             const ELITISM_PERCENTAGE = document.getElementById('elitism-percentage').value / 100;
+            const MUTATION_RATE = document.getElementById('mutation-rate').value / 100;
 
-            const url = `evolution.html?MAX_GENERATIONS=${MAX_GENERATIONS}&POPULATION_COUNT=${POPULATION_COUNT}&ELITISM_PERCENTAGE=${ELITISM_PERCENTAGE}`;
+            const url = `evolution.html?MAX_GENERATIONS=${MAX_GENERATIONS}&POPULATION_COUNT=${POPULATION_COUNT}&ELITISM_PERCENTAGE=${ELITISM_PERCENTAGE}&TARGET_SCORE=${TARGET_SCORE}&MUTATION_RATE=${MUTATION_RATE}`;
             window.location.href = url;
         });
     </script>

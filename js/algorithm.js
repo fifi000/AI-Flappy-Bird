@@ -7,14 +7,16 @@ const Neat = neataptic.Neat;
 const Node = neataptic.Node;
 const Methods = neataptic.methods;
 const Architect = neataptic.architect;
+const Network = neataptic.Network;
 
 // network parameters
 const urlParams = new URLSearchParams(window.location.search);
 
-const TARGET_SCORE = urlParams.get("OBJECTIVE_SCORE") ?? 100;
+const TARGET_SCORE = urlParams.get("TARGET_SCORE") ?? 100;
 const POPULATION_COUNT = urlParams.get("POPULATION_COUNT") ?? 100;
 const MAX_GENERATIONS = urlParams.get("MAX_GENERATIONS") ?? 50;
 const ELITISM_PERCENTAGE = urlParams.get("ELITISM_PERCENTAGE") ?? 0.1;
+const MUTATION_RATE = urlParams.get("MUTATION_RATE") ?? 0.3;
 
 const INPUT_NEURONS = 3;
 const OUTPUT_NEURONS = 1;
@@ -32,7 +34,7 @@ const neat = new Neat(INPUT_NEURONS, OUTPUT_NEURONS, null, {
         // Methods.mutation.SUB_CONN,
     ],
     popsize: POPULATION_COUNT,
-    mutationRate: 0.3,
+    mutationRate: MUTATION_RATE,
     elitism: Math.round(POPULATION_COUNT * ELITISM_PERCENTAGE)
 });
 
@@ -42,12 +44,13 @@ for (let i = 0; i < neat.population.length; i++) {
     neat.population[i] = getNetwork();
 }
 
+function getRandomValue(min = -1, max = 1) {
+    return Math.random() * 2 * max + min;
+}
 
 function getNetwork() {
     let input = Array.from({ length: INPUT_NEURONS }, () => new Node());
     let output = Array.from({ length: OUTPUT_NEURONS }, () => new Node());
-    let min = -1;
-    let max = 1;
 
     input.forEach(neuron => {
         output.forEach(n => neuron.connect(n));
@@ -58,12 +61,12 @@ function getNetwork() {
     network.nodes.forEach(neuron => {
         if (neuron.type !== "input") {
             neuron.squash = Methods.activation.LOGISTIC;
-            neuron.bias = Math.random() * 2 * max + min;
+            neuron.bias = getRandomValue();
         }
     });
 
     network.connections.forEach(con => {
-        con.weight = Math.random() * 2 * max + min;
+        con.weight = getRandomValue();
     })
 
     return network;
@@ -74,7 +77,7 @@ function normalize(value, minValue, maxValue, targetMin, targetMax) {
     return normalizedValue * (targetMax - targetMin) + targetMin;
 }
 
-function evaluateNetwork(player) {
+function evaluateNetwork(player, players, pipes) {
     // playing mode when there is only one bird
     if (players.length == 1) return false;
 
@@ -98,20 +101,17 @@ function evaluateNetwork(player) {
 }
 
 function mutate(genome) {
-    let min = -1;
-    let max = 1;
-
     let mutation = neat.mutation[Math.floor(Math.random() * neat.mutation.length)];
 
     switch (mutation) {
         case Methods.mutation.MOD_BIAS:
             genome.nodes.forEach(node => {
-                node.bias = Math.random() * 2 * max + min;
+                node.bias = getRandomValue();
             })
             break;
         case Methods.mutation.MOD_WEIGHT:
             genome.connections.forEach(con => {
-                con.weight = Math.random() * 2 * max + min;
+                con.weight = getRandomValue();
             })
             break;
         default:
