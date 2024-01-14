@@ -6,9 +6,12 @@ const Architect = neataptic.architect;
 
 // network parameters
 const urlParams = new URLSearchParams(window.location.search);
+
+const TARGET_SCORE = urlParams.get("OBJECTIVE_SCORE") ?? 100;
 const POPULATION_COUNT = urlParams.get("POPULATION_COUNT") ?? 100;
 const MAX_GENERATIONS = urlParams.get("MAX_GENERATIONS") ?? 50;
 const ELITISM_PERCENTAGE = urlParams.get("ELITISM_PERCENTAGE") ?? 0.1;
+
 const INPUT_NEURONS = 3;
 const OUTPUT_NEURONS = 1;
 // const ELITISM_PERCENTAGE = parseFloat(prompt("Enter the elitism percentage (as a decimal):"));
@@ -113,6 +116,13 @@ function mutate(genome) {
 }
 
 function evolve() {
+    // check if the target score is reached
+    if (pipesCount < TARGET_SCORE && neat.generation >= MAX_GENERATIONS) {
+        neat.population = Array.from({ length: POPULATION_COUNT }, () => getNetwork());
+        neat.generation = 0;
+        return
+    }
+
     neat.sort();
     let newPopulation = [];
 
@@ -133,11 +143,4 @@ function evolve() {
     // Replace the old population with the new one
     neat.population = newPopulation;
     neat.generation += 1;
-
-    if (pipesCount < 100 && neat.generation > MAX_GENERATIONS) {
-        for (let i = 0; i < neat.population.length; i++) {
-            neat.population[i] = getNetwork();
-            neat.generation = 0;
-        }
-    }
 }
