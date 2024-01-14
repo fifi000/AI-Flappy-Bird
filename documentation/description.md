@@ -37,7 +37,7 @@ gdzie $[x_{1},\dots,x_{N}]$ jest zbiorem wartości wejściowych dla $N$ połącz
 
 W kolejnym kroku wartość sumy ważonej $z$ dla danego neuronu przekazywana jest do określonej funkcji aktywacji. 
 
-Sieć każdego ptaka składa się tylko z 2 warstw. Warstwa wejściowa złożona jest z 3 neuronów, natomiast warstwa wyjściowa tylko z 1. Każdy neuron w warstwie wejściowej jest połączony z neuronem wyjściowym. Poniżej na [Rys 4] widzimy przykład genomu. Wagi połączeń są oznaczone grubością linii, na zielono są wartości pozytywne, a na czerwono negatywne. Liczby w neuronach oznaczają wartości biasów. Zastosowana funcja aktywacji to sigmoida (funkcja logiczna), jej wykres przedstawia [Rys 5]. Opisuje ją równanie:
+Sieć każdego ptaka składa się tylko z 2 warstw. Warstwa wejściowa złożona jest z 3 neuronów, natomiast warstwa wyjściowa tylko z 1. Każdy neuron w warstwie wejściowej jest połączony z neuronem wyjściowym. Poniżej na [Rys 4] widzimy przykład genomu. Wagi połączeń są oznaczone grubością linii, na zielono są wartości pozytywne, a na czerwono negatywne. Zastosowana funcja aktywacji to sigmoida (funkcja logiczna), jej wykres przedstawia [Rys 5]. Opisuje ją równanie:
 
 $$
 f(x)=\frac{1}{1+e^{-x}}
@@ -66,7 +66,7 @@ Na wejściu do sieci neuronowej przekazywane są wartości współrzędnych $y$ 
 Niech wektor $\vec{x} = [x_{1}, x_{2}, x_{3}]$ będzie wektorem wejściowym. Wartości $\vec{x}$ są normalizowe do wartości z przedziału $[-5, 5]$ przy pomocy wzoru poniżej:
 
 $$
-x_{norm}=\frac{x-x_{min}}{x_{max}-x_{min}} \cdot (target_{max}-target_{min})+target_{min}
+x_{norm}=\frac{x-x_{min}}{x_{max}-x_{min}} \times (target_{max}-target_{min})+target_{min}
 $$
 
 $x$ - wartość wejściowa  
@@ -85,9 +85,9 @@ Po ewaluacji sieci, otrzymujemy wartość wyjściową $y$ z przedziału $[0, 1]$
 
 Początkowo dla każdego osobnika zostaje przydzielony genom z pseudolosowymi wartościami wag połączeń jak i biasów. Wartości te są z przedziału $[-1,1]$. 
 
-**Ocena skuteczności**
+**Funkcja przystosowania**
 
-Z każdym kolejną przebytą jednostką długości, osobnik otrzymuje punkt (nie ten liczony na górze ekranu). Punkty te służą do oceny jakości osobnika. Im więcej punktów, tym lepszy osobnik. 
+Każdy osobnik jest oceniany na podstawie przebytej odległości. Im dalej ptak przeleci, tym lepszy jest.
 
 **Selekcja elity**
 
@@ -95,13 +95,24 @@ Jeśli w danej generacji cel pokonania $100$ przeszkód nie zostanie osiągnięt
 
 **Reprodukcja**
 
-W każdej generacji liczba zawodników jest taka sama. Po wybraniu elity, pozostaje nam $225$ osobników, którzy muszą zostać stworzeni. W pętli tworzone są nowe osobniki jako potomstwo z poprzedniej populacji.
+W każdej generacji liczba zawodników jest taka sama. Po wybraniu elity, pozostaje nam $225$ osobników, którzy muszą zostać stworzeni. W pętli tworzone są nowe osobniki jako potomstwo z poprzedniej populacji. Przed rozpoczęciem, poprzednia populacja zostaje posortowana według oceny funkcji przystosowania w kolejności malejącej. Z każdą iteracją wybieranych jest 2 rodziców. Proces wyboru jest losowy, ale z prawdopodobieństwem proporcjonalnym do oceny funkcji przystosowania, [Rys 6] przedstawia rozkład prawdopodobieństwa bycia wybranym:
 
-Z każdą iteracją wybieramy losowo 2 rodziców. Na ich bazie tworzony jest nowy genom, gdzie przy każdym połączeniu oraz neuronie, losowo wybierana jest wartość jednego z rodziców, która przechodzi do potomka. Dla połączeń będzie to wartość wagi, a dla neuronów wartość biasu.
+![Wykres prawdopodobieństwa](selection.png)
+[Rys 6]
+
+Wybór $i$-tego osobnika z $\text{N}$-licznej populacji, odbywa się przy pomocy wzoru:
+
+$$
+i = \lfloor \text{{random}}()^{4} \times \text{N} \rfloor
+$$
+
+Funkcja $\text{random}()$ zwraca losową wartość z przedziału $[0, 1]$.
+
+Na bazie wybranych rodziców tworzony jest nowy genom, gdzie przy każdym połączeniu oraz neuronie, losowo wybierana jest wartość jednego z rodziców, która przechodzi do potomka. Dla połączeń będzie to wartość wagi, a dla neuronów wartość biasu.
 
 **Mutacja**
 
-W algorytmie ustawiona wartość stopnia mutacji na $0.1$. Oznacza to, że każdy nowopowstały osobnik ma $10$% szans na mutację. Mutacja polega na wygenerowaniu nowych  wartości połączeń lub neuronów. Wartośc te, tak jak w przypadku inicjalizacji sieci, są losowane z przedziału $[-1,1]$. Dzięki zastosowaniu mutowania osobników, dostarczamy trochę świeżości do populacji. Może pozwolić to w obejściu lokalnych minimów, które mogą wystąpić w populacji. Z drugiej strony zbyt wysokie prawdopodobieństwo mutacji, może spowodować, że populacja nie będzie w stanie się nauczyć, ponieważ każdy osobnik będzie zaczynał praktycznie od zera.
+W algorytmie ustawiona wartość stopnia mutacji wynosi $0.1$. Oznacza to, że każdy nowopowstały osobnik ma $10$% szans na mutację. Mutacja polega na wygenerowaniu nowych  wartości połączeń lub neuronów. Wartości te, tak jak w przypadku inicjalizacji sieci, są losowane z przedziału $[-1,1]$. Dzięki zastosowaniu mutowania osobników, dostarczamy trochę świeżości do populacji. Pozwoli to w obejściu lokalnych minimów, które mogą wystąpić w populacji. Z drugiej strony zbyt wysokie prawdopodobieństwo mutacji, może spowodować, że populacja nie będzie w stanie się nauczyć, ponieważ każdy osobnik będzie zaczynał praktycznie od zera.
 
 **Maksymalna liczba generacji**
 
@@ -113,7 +124,5 @@ Dana populacja ma $50$ generacji na osiągnięcie celu. Jeśli w ciągu tych $50
     Y - liczba punktów (score na ekranie)
 
 2. Podsumowanie dokumentacji
-
-3. Poprawić schemat sieci, dodać przekazanie do funkcji aktywacji
 
 -->
