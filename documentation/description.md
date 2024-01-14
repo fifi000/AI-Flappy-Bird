@@ -118,11 +118,14 @@ W algorytmie ustawiona wartość stopnia mutacji wynosi $0.1$. Oznacza to, że k
 
 Dana populacja ma $50$ generacji na osiągnięcie celu. Jeśli w ciągu tych $50$ generacji nie zostanie osiągnięty cel, to zostaje wybrana nowa populacja, a proces ewolucji rozpoczyna się od nowa. Jest to wprowadzone w celu uniknięcia sytuacji, w której następuje zastój.
 
-<!-- 
-1. Dorobić wykres z osiągnięciami populacji 
-    X - numer generacji
-    Y - liczba punktów (score na ekranie)
+## Wyniki
 
-2. Podsumowanie dokumentacji
+[Rys 7] przedstawia wykres pokonanych przeszkód w poszczególnych generacjach. Już przy $7$ generacji populacja osiągnęła zamierzony cel $100$ przeszkód. Co ciekawe, przez kolejne 3 generacje populacja nie była w stanie osiągnąć tego samego wyniku. Dopiero w $11$ generacji, populacja ponownie osiągnęła cel.
 
--->
+![Wyniki](results.png)  
+[Rys 7]
+
+Poniżej przedstawiony jest genom najlepszej sieci neuronowej, która zaszła najdalej.
+
+![Alt text](best_network.png)  
+[Rys 8 - Najlepsza sieć neuronowa]
