@@ -7,6 +7,7 @@ class Player extends BaseObject {
         this.jumpHeight = 7.5 / 800 * HEIGHT;
 
         this.dead = false;
+        this.pipes = 0;
 
         this.images = [];
         this.animationCounter = 0;

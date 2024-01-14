@@ -193,6 +193,7 @@ function checkCollision() {
     players.forEach(player => {
         if (pipes.some(pipe => pipe.checkCollision(player)) || floor.checkCollision(player) || player.startY <= 0) {
             player.dead = true;
+            player.pipes = pipesCount;
         }
     })
 

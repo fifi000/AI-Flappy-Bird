@@ -1,3 +1,7 @@
+// TODO
+const PYTHON_DATA = [];
+
+
 // neat imports
 const Neat = neataptic.Neat;
 const Node = neataptic.Node;
@@ -121,6 +125,17 @@ function evolve() {
         neat.population = Array.from({ length: POPULATION_COUNT }, () => getNetwork());
         neat.generation = 0;
         return
+    }
+
+    // TODO
+    PYTHON_DATA.push({
+        generation: neat.generation,
+        scores: players.map(player => player.brain.score),
+        pipes: players.map(player => player.pipes)
+    });
+
+    if (pipesCount >= TARGET_SCORE) {
+        console.log("Target score reached!");
     }
 
     neat.sort();
