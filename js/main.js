@@ -2,7 +2,6 @@
 // screen setup
 const canvas = document.getElementById("game_window");
 
-
 var smartphoneScreen = window.innerWidth < window.innerHeight;
 
 // PC monitors
@@ -159,13 +158,13 @@ function drawBrain(brain) {
         ctx.fill();
         ctx.stroke();
         
-        if (position.type !== 'input') {
-            const bias = position.bias.toFixed(2);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '12px Arial';
-            ctx.textAlign = 'center';
-            ctx.fillText(bias, position.x, position.y);
-        }
+        // if (position.type !== 'input') {
+        //     const bias = position.bias.toFixed(2);
+        //     ctx.fillStyle = '#ffffff';
+        //     ctx.font = '12px Arial';
+        //     ctx.textAlign = 'center';
+        //     ctx.fillText(bias, position.x, position.y);
+        // }
     });
 }
 
